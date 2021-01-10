@@ -1,38 +1,66 @@
-.App {
+h1 {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.daysContainer {
+  width: 90%;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin: auto;
 }
 
-.App-link {
-  color: #61dafb;
+/* DAY */
+
+.dayDiv {
+  width: 14%;
+  border: 1px solid black;
+  border-collapse: collapse;
+  height: 190px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.dayHeader {
+  height: 15%;
+  text-align: center;
+  border-bottom: 1px solid black;
+  background-color: gray;
+}
+
+.dayRemaindersDiv {
+  height: 65%;
+}
+
+.dayFooter {
+  height: 18%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.addRemainderBtn {
+  border-radius: 50%;
+  font-size: 15px;
+  height: 90%;
+  margin: 0px 2px;
+}
+
+/* REMAINDER */
+
+.remainderDiv {
+  height: 34px;
+  padding: 5px;
+  font-size: 17px;
+}
+
+.pink {
+  background-color: pink !important;
+}
+.green {
+  background-color: green !important;
+}
+.blue {
+  background-color: blue !important;
+}
+.yellow {
+  background-color: yellow !important;
 }
