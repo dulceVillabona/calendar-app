@@ -66,7 +66,7 @@ const RemainderForm = ({
   const [daysOptions, setDaysOptions] = useState(
     remainderToEdit ? createDayOptions() : []
   );
-  
+
   useEffect(() => {
     setCountryAndCityOptions();
   }, [countries, remainderValues.country]);
@@ -74,7 +74,7 @@ const RemainderForm = ({
   useEffect(() => {
     if (remainderToEdit) {
       setDaysOptions(createDayOptions());
-      setRemainderValues({...remainderValues, day: 1})
+      setRemainderValues({ ...remainderValues, day: 1 });
     }
   }, [remainderValues.month]);
 
@@ -165,17 +165,14 @@ const RemainderForm = ({
             <Form>
               <Form.Field inline>
                 <Label size="huge">Title</Label>
-                {/* <Label basic color="red" pointing="below" active={false}>
-                  Remainder title must be under 30 characters
-                </Label> */}
                 <Input
+                  placeholder="Max 30 chars"
                   type="text"
                   name="title"
                   id="remainderTitle"
                   size="huge"
                   onChange={(e) => handleValueChange("title", e.target.value)}
                   value={remainderValues.title}
-                  error={true}
                 />
               </Form.Field>
               <Form.Field inline>

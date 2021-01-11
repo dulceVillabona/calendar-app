@@ -1,5 +1,4 @@
 import React from "react";
-import moment from "moment";
 
 import Day from "../day";
 import { DAYS, FULL_DAYS, getDaysInMonth, getDayOfWeek } from "../../utils.js";
