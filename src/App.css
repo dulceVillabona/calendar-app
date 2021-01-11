@@ -1,5 +1,34 @@
 h1 {
   text-align: center;
+  margin: 0 !important;
+  width: 70%;
+}
+
+.appHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px auto;
+  width: 90%;
+}
+
+.namesHeader {
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  margin: auto;
+  background-color: rgb(34 114 234);
+  border: 2px solid #a0a0a0;
+  border-bottom: none;
+}
+
+.namesHeader h2 {
+  width: 14.28%;
+  margin: 5px 0;
+  text-align: center;
+  color: white;
+  font-size: 20px;
 }
 
 .daysContainer {
@@ -9,30 +38,53 @@ h1 {
   justify-content: flex-start;
   align-items: center;
   margin: auto;
+  border-left: 2px solid #a0a0a0;
+  border-top: 2px solid #a0a0a0;
 }
 
 /* DAY */
 
-.dayDiv {
-  width: 14%;
-  border: 1px solid black;
-  border-collapse: collapse;
+.disabledDayDiv {
+  width: 14.28%;
+  border-right: 2px solid #a0a0a0;
+  border-bottom: 2px solid #a0a0a0;
   height: 190px;
+}
+
+.disabledDayDiv .dayHeader {
+  color: #a0a0a0;
+}
+
+.dayDiv {
+  width: 14.28%;
+  border-right: 1px solid #a0a0a0;
+  border-bottom: 1px solid #a0a0a0;
+  height: 190px;
+}
+
+.weekEndDay {
+  background-color: rgb(234 234 234);
+}
+
+.dayDiv.weekEndDay .dayHeader {
+  color: rgb(34 114 234);
 }
 
 .dayHeader {
   height: 15%;
-  text-align: center;
-  border-bottom: 1px solid black;
-  background-color: gray;
+  font-size: 15px;
+  padding: 5px;
+  font-weight: bold;
 }
 
 .dayRemaindersDiv {
   height: 65%;
+  overflow: auto;
 }
 
 .dayFooter {
-  height: 18%;
+  padding: 2px 0;
+  height: 20%;
   display: flex;
   justify-content: flex-end;
 }
@@ -52,15 +104,61 @@ h1 {
   font-size: 17px;
 }
 
-.pink {
-  background-color: pink !important;
+.remainderDiv p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.green {
-  background-color: green !important;
+
+.pink {
+  background-color: #e03997 !important;
+}
+.olive {
+  background-color: #b5cc18 !important;
 }
 .blue {
-  background-color: blue !important;
+  background-color: #2185d0 !important;
 }
 .yellow {
-  background-color: yellow !important;
+  background-color: #fbbd08 !important;
+}
+.teal {
+  background-color: #00b5ad !important;
+}
+
+/* REMAINDER DETAILS */
+
+.remainderDetailsContainer {
+  display: flex !important;
+}
+
+.remainderDetailsContainer p {
+  font-size: 20px;
+}
+
+.remainderDetailsContainer div {
+  width: 50%;
+}
+
+/* REMAINDER FORM */
+
+.checkboxesContainer {
+  display: grid;
+  grid-template-columns: 20px 50px 20px 50px;
+  align-items: baseline;
+  grid-row-gap: 10px;
+}
+
+.labelMargin {
+  margin-right: 40px !important;
+}
+
+.dropdownCustom {
+  width: 400px !important;
+  display: inline-block !important;
+}
+
+.forecastIcon {
+  border-radius: 50%;
+  float: right;
 }

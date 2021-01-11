@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
-import { Button, Input, Form, Checkbox, Label, Modal } from "semantic-ui-react";
+import {
+  Button,
+  Input,
+  Form,
+  Checkbox,
+  Label,
+  Modal,
+  Dropdown,
+} from "semantic-ui-react";
 
 import { addRemainder, editRemainder } from "../../store/actions";
+
+import { MONTHS, getDaysInMonth } from "../../utils";
 
 const RemainderForm = ({
   day,
@@ -13,19 +23,88 @@ const RemainderForm = ({
   editRemainder,
   remainderToEdit,
   remainders,
+  countries,
 }) => {
+  const [cityOptions, setCityOptions] = useState();
   const [remainderValues, setRemainderValues] = useState(
     remainderToEdit
       ? { ...remainderToEdit }
-      : { title: "", time: "12.00", color: "pink", city: "Tandil" }
+      : {
+          title: "",
+          time: "12:00",
+          color: "pink",
+          country: "Afghanistan",
+          city: cityOptions ? cityOptions[0].value : "",
+          day: day,
+          month: month,
+        }
   );
 
+  const countryOptions = countries.map((countryOb) => {
+    return {
+      key: countryOb.country,
+      value: countryOb.country,
+      text: countryOb.country,
+    };
+  });
+
+  const monthOptions = MONTHS.map((month, index) => {
+    return { key: index, value: index, text: month };
+  });
+
+  const createDayOptions = () => {
+    if (remainderToEdit) {
+      const daysOptions = [];
+      const totalDays = getDaysInMonth(remainderToEdit.month);
+      for (let i = 1; i <= totalDays; i++) {
+        daysOptions.push({ key: i, value: i, text: i });
+      }
+      return daysOptions;
+    }
+  };
+
+  const [daysOptions, setDaysOptions] = useState(
+    remainderToEdit ? createDayOptions() : []
+  );
+  
+  useEffect(() => {
+    setCountryAndCityOptions();
+  }, [countries, remainderValues.country]);
+
+  useEffect(() => {
+    if (remainderToEdit) {
+      setDaysOptions(createDayOptions());
+      setRemainderValues({...remainderValues, day: 1})
+    }
+  }, [remainderValues.month]);
+
+  const setCountryAndCityOptions = () => {
+    if (countries.length && remainderValues.country) {
+      const cityOptions = countries
+        .find((currCountry) => currCountry.country === remainderValues.country)
+        .cities.map((city) => {
+          return { text: city, value: city, key: city };
+        });
+      setRemainderValues({ ...remainderValues, city: cityOptions[0].value });
+      setCityOptions(cityOptions);
+    }
+  };
+
   const [open, setOpen] = useState(false);
+
   useEffect(() => {
     setRemainderValues(
       remainderToEdit
         ? { ...remainderToEdit }
-        : { title: "", time: "12.00", color: "pink", city: "Tandil" }
+        : {
+            title: "",
+            time: "12:00",
+            color: "pink",
+            country: "Afghanistan",
+            city: cityOptions ? cityOptions[0].value : "",
+            day: day,
+            month: month,
+          }
     );
   }, [open]);
 
@@ -46,6 +125,8 @@ const RemainderForm = ({
             color: remainderValues.color,
             time: remainderValues.time,
             city: remainderValues.city,
+            day: remainderValues.day,
+            month: remainderValues.month,
           };
         } else return remainder;
       });
@@ -62,6 +143,14 @@ const RemainderForm = ({
     setOpen(false);
   };
 
+  const disableSaveButton = () => {
+    return (
+      remainderValues.title === "" ||
+      remainderValues.title.length > 30 ||
+      remainderValues.city === ""
+    );
+  };
+
   return (
     <Modal
       onClose={() => setOpen(false)}
@@ -74,30 +163,37 @@ const RemainderForm = ({
         <Modal.Description>
           <div className="remainderForm">
             <Form>
-              <Form.Field>
-                <Label size="large">Title</Label>
+              <Form.Field inline>
+                <Label size="huge">Title</Label>
+                {/* <Label basic color="red" pointing="below" active={false}>
+                  Remainder title must be under 30 characters
+                </Label> */}
                 <Input
                   type="text"
                   name="title"
                   id="remainderTitle"
+                  size="huge"
                   onChange={(e) => handleValueChange("title", e.target.value)}
-                  required
                   value={remainderValues.title}
+                  error={true}
                 />
               </Form.Field>
-              <Form.Field>
-                <Label size="large">Time</Label>
+              <Form.Field inline>
+                <Label size="huge">Time</Label>
                 <Input
-                  type="text"
+                  type="time"
                   name="time"
                   id="remainderTime"
+                  size="big"
                   onChange={(e) => handleValueChange("time", e.target.value)}
-                  required
                   value={remainderValues.time}
+                  error={true}
                 />
               </Form.Field>
-              <Form.Field>
-                <Label size="large">Color</Label>
+              <Form.Group inline>
+                <Label size="huge" className="labelMargin">
+                  Color
+                </Label>
                 <Checkbox
                   radio
                   name="color"
@@ -105,7 +201,13 @@ const RemainderForm = ({
                   checked={remainderValues.color === "pink"}
                   onChange={() => handleValueChange("color", "pink")}
                 />
-                <Label circular color="pink" empty size="medium" />
+                <Label
+                  circular
+                  color="pink"
+                  empty
+                  size="huge"
+                  className="labelMargin"
+                />
                 <Checkbox
                   radio
                   name="color"
@@ -113,15 +215,27 @@ const RemainderForm = ({
                   checked={remainderValues.color === "blue"}
                   onChange={() => handleValueChange("color", "blue")}
                 />
-                <Label circular color="blue" empty size="medium" />
+                <Label
+                  circular
+                  color="blue"
+                  empty
+                  size="huge"
+                  className="labelMargin"
+                />
                 <Checkbox
                   radio
                   name="color"
-                  value="green"
-                  checked={remainderValues.color === "green"}
-                  onChange={() => handleValueChange("color", "green")}
+                  value="olive"
+                  checked={remainderValues.color === "olive"}
+                  onChange={() => handleValueChange("color", "olive")}
                 />
-                <Label circular color="green" empty size="medium" />
+                <Label
+                  circular
+                  color="olive"
+                  empty
+                  size="huge"
+                  className="labelMargin"
+                />
                 <Checkbox
                   radio
                   name="color"
@@ -129,16 +243,91 @@ const RemainderForm = ({
                   checked={remainderValues.color === "yellow"}
                   onChange={() => handleValueChange("color", "yellow")}
                 />
-                <Label circular color="yellow" empty size="medium" />
+                <Label
+                  circular
+                  color="yellow"
+                  empty
+                  size="huge"
+                  className="labelMargin"
+                />
+                <Checkbox
+                  radio
+                  name="color"
+                  value="teal"
+                  checked={remainderValues.color === "teal"}
+                  onChange={() => handleValueChange("color", "teal")}
+                />
+                <Label
+                  circular
+                  color="teal"
+                  empty
+                  size="huge"
+                  className="labelMargin"
+                />
+              </Form.Group>
+              <Form.Field inline>
+                <Label size="huge">Country</Label>
+                <Dropdown
+                  className="dropdownCustom"
+                  fluid
+                  selection
+                  size="huge"
+                  options={countryOptions}
+                  value={remainderValues.country}
+                  onChange={(e) =>
+                    handleValueChange("country", e.target.textContent)
+                  }
+                />
               </Form.Field>
-              {/* <Form.Field>
-                <Button onClick={() => setShouldClose(true)} color="black">
-                  Cancel
-                </Button>
-                <Button onClick={() => handleSubmit()} color="green">
-                  Save
-                </Button>
-              </Form.Field> */}
+              <Form.Field inline>
+                <Label size="huge">City</Label>
+                <Dropdown
+                  className="dropdownCustom"
+                  fluid
+                  selection
+                  size="huge"
+                  options={cityOptions}
+                  value={remainderValues.city}
+                  onChange={(e) =>
+                    handleValueChange("city", e.target.textContent)
+                  }
+                />
+              </Form.Field>
+              {remainderToEdit && (
+                <>
+                  <Form.Field inline>
+                    <Label size="huge">Month</Label>
+                    <Dropdown
+                      className="dropdownCustom"
+                      fluid
+                      selection
+                      size="huge"
+                      options={monthOptions}
+                      value={remainderValues.month}
+                      onChange={(e) =>
+                        handleValueChange(
+                          "month",
+                          MONTHS.indexOf(e.target.textContent)
+                        )
+                      }
+                    />
+                  </Form.Field>
+                  <Form.Field inline>
+                    <Label size="huge">Day</Label>
+                    <Dropdown
+                      className="dropdownCustom"
+                      fluid
+                      selection
+                      size="huge"
+                      options={daysOptions}
+                      value={remainderValues.day}
+                      onChange={(e) =>
+                        handleValueChange("day", Number(e.target.textContent))
+                      }
+                    />
+                  </Form.Field>
+                </>
+              )}
             </Form>
           </div>
         </Modal.Description>
@@ -147,7 +336,11 @@ const RemainderForm = ({
         <Button color="black" onClick={() => setOpen(false)}>
           Cancel
         </Button>
-        <Button color="green" onClick={() => handleSubmit()}>
+        <Button
+          color="green"
+          disabled={disableSaveButton()}
+          onClick={() => handleSubmit()}
+        >
           Save
         </Button>
       </Modal.Actions>
@@ -158,6 +351,7 @@ const RemainderForm = ({
 const mapStateToProps = (state) => {
   return {
     remainders: state.remainders.storedRemainders,
+    countries: state.countries.storedCountries,
   };
 };
 

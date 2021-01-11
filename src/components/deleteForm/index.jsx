@@ -22,7 +22,7 @@ const DeleteForm = ({
       );
     } else {
       filteredRemainders = remainders.filter(
-        (remainder) => remainder.day !== day && remainder.month !== month
+        (remainder) => !(remainder.day === day && remainder.month === month)
       );
     }
     deleteRemainder(filteredRemainders);

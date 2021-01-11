@@ -14,3 +14,8 @@ export const deleteRemainder = (data) => ({
   type: TYPES.DELETE_REMAINDER,
   payload: data,
 });
+
+export const setCountries = (data) => ({
+  type: TYPES.SET_COUNTRIES,
+  payload: data,
+});
