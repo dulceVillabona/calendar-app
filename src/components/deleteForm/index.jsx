@@ -2,30 +2,30 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Button, Modal } from "semantic-ui-react";
 
-import { deleteRemainder } from "../../store/actions";
+import { deleteReminder } from "../../store/actions";
 
 const DeleteForm = ({
   day,
   month,
   trigger,
-  deleteRemainder,
-  remainders,
-  remainderToDelete,
+  deleteReminder,
+  reminders,
+  reminderToDelete,
 }) => {
   const [open, setOpen] = useState(false);
 
   const handleSubmit = () => {
-    let filteredRemainders = [];
-    if (remainderToDelete) {
-      filteredRemainders = remainders.filter(
-        (remainder) => remainder.creationId !== remainderToDelete.creationId
+    let filteredReminders = [];
+    if (reminderToDelete) {
+      filteredReminders = reminders.filter(
+        (reminder) => reminder.creationId !== reminderToDelete.creationId
       );
     } else {
-      filteredRemainders = remainders.filter(
-        (remainder) => !(remainder.day === day && remainder.month === month)
+      filteredReminders = reminders.filter(
+        (reminder) => !(reminder.day === day && reminder.month === month)
       );
     }
-    deleteRemainder(filteredRemainders);
+    deleteReminder(filteredReminders);
     setOpen(false);
   };
 
@@ -36,14 +36,14 @@ const DeleteForm = ({
       open={open}
       trigger={trigger}
     >
-      <Modal.Header>Delete remainders</Modal.Header>
+      <Modal.Header>Delete reminders</Modal.Header>
       <Modal.Content>
         <Modal.Description>
           <p>
             {" "}
-            {remainderToDelete
-              ? "Are you sure you want to delete this remainder?"
-              : "Are you sure you want to delete all the remainders for this day?"}
+            {reminderToDelete
+              ? "Are you sure you want to delete this reminder?"
+              : "Are you sure you want to delete all the reminders for this day?"}
           </p>
         </Modal.Description>
       </Modal.Content>
@@ -61,13 +61,13 @@ const DeleteForm = ({
 
 const mapStateToProps = (state) => {
   return {
-    remainders: state.remainders.storedRemainders,
+    reminders: state.reminders.storedReminders,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteRemainder: (data) => dispatch(deleteRemainder(data)),
+    deleteReminder: (data) => dispatch(deleteReminder(data)),
   };
 };
 

@@ -11,24 +11,24 @@ import {
   Dropdown,
 } from "semantic-ui-react";
 
-import { addRemainder, editRemainder } from "../../store/actions";
+import { addReminder, editReminder } from "../../store/actions";
 
 import { MONTHS, getDaysInMonth } from "../../utils";
 
-const RemainderForm = ({
+const ReminderForm = ({
   day,
   month,
   trigger,
-  addRemainder,
-  editRemainder,
-  remainderToEdit,
-  remainders,
+  addReminder,
+  editReminder,
+  reminderToEdit,
+  reminders,
   countries,
 }) => {
   const [cityOptions, setCityOptions] = useState();
-  const [remainderValues, setRemainderValues] = useState(
-    remainderToEdit
-      ? { ...remainderToEdit }
+  const [reminderValues, setReminderValues] = useState(
+    reminderToEdit
+      ? { ...reminderToEdit }
       : {
           title: "",
           time: "12:00",
@@ -53,9 +53,9 @@ const RemainderForm = ({
   });
 
   const createDayOptions = () => {
-    if (remainderToEdit) {
+    if (reminderToEdit) {
       const daysOptions = [];
-      const totalDays = getDaysInMonth(remainderToEdit.month);
+      const totalDays = getDaysInMonth(reminderToEdit.month);
       for (let i = 1; i <= totalDays; i++) {
         daysOptions.push({ key: i, value: i, text: i });
       }
@@ -64,28 +64,28 @@ const RemainderForm = ({
   };
 
   const [daysOptions, setDaysOptions] = useState(
-    remainderToEdit ? createDayOptions() : []
+    reminderToEdit ? createDayOptions() : []
   );
 
   useEffect(() => {
     setCountryAndCityOptions();
-  }, [countries, remainderValues.country]);
+  }, [countries, reminderValues.country]);
 
   useEffect(() => {
-    if (remainderToEdit) {
+    if (reminderToEdit) {
       setDaysOptions(createDayOptions());
-      setRemainderValues({ ...remainderValues, day: 1 });
+      setReminderValues({ ...reminderValues, day: 1 });
     }
-  }, [remainderValues.month]);
+  }, [reminderValues.month]);
 
   const setCountryAndCityOptions = () => {
-    if (countries.length && remainderValues.country) {
+    if (countries.length && reminderValues.country) {
       const cityOptions = countries
-        .find((currCountry) => currCountry.country === remainderValues.country)
+        .find((currCountry) => currCountry.country === reminderValues.country)
         .cities.map((city) => {
           return { text: city, value: city, key: city };
         });
-      setRemainderValues({ ...remainderValues, city: cityOptions[0].value });
+      setReminderValues({ ...reminderValues, city: cityOptions[0].value });
       setCityOptions(cityOptions);
     }
   };
@@ -93,9 +93,9 @@ const RemainderForm = ({
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    setRemainderValues(
-      remainderToEdit
-        ? { ...remainderToEdit }
+    setReminderValues(
+      reminderToEdit
+        ? { ...reminderToEdit }
         : {
             title: "",
             time: "12:00",
@@ -109,45 +109,45 @@ const RemainderForm = ({
   }, [open]);
 
   const handleValueChange = (field, value) => {
-    setRemainderValues({
-      ...remainderValues,
+    setReminderValues({
+      ...reminderValues,
       [field]: value,
     });
   };
 
   const handleSubmit = () => {
-    if (remainderToEdit) {
-      const updatedRemainders = remainders.map((remainder) => {
-        if (remainder.creationId === remainderToEdit.creationId) {
+    if (reminderToEdit) {
+      const updatedReminders = reminders.map((reminder) => {
+        if (reminder.creationId === reminderToEdit.creationId) {
           return {
-            ...remainder,
-            title: remainderValues.title,
-            color: remainderValues.color,
-            time: remainderValues.time,
-            city: remainderValues.city,
-            day: remainderValues.day,
-            month: remainderValues.month,
+            ...reminder,
+            title: reminderValues.title,
+            color: reminderValues.color,
+            time: reminderValues.time,
+            city: reminderValues.city,
+            day: reminderValues.day,
+            month: reminderValues.month,
           };
-        } else return remainder;
+        } else return reminder;
       });
-      editRemainder(updatedRemainders);
+      editReminder(updatedReminders);
     } else {
-      const newRemainder = {
-        ...remainderValues,
+      const newReminder = {
+        ...reminderValues,
         day: day,
         month: month,
         creationId: moment().format(),
       };
-      addRemainder(newRemainder);
+      addReminder(newReminder);
     }
     setOpen(false);
   };
 
   const disableSaveButton = () => {
     return (
-      remainderValues.title === "" ||
-      remainderValues.title.length > 30 ||
-      remainderValues.city === ""
+      reminderValues.title === "" ||
+      reminderValues.title.length > 30 ||
+      reminderValues.city === ""
     );
   };
 
@@ -158,10 +158,10 @@ const RemainderForm = ({
       open={open}
       trigger={trigger}
     >
-      <Modal.Header>Add new remainder</Modal.Header>
+      <Modal.Header>Add new reminder</Modal.Header>
       <Modal.Content>
         <Modal.Description>
-          <div className="remainderForm">
+          <div className="reminderForm">
             <Form>
               <Form.Field inline>
                 <Label size="huge">Title</Label>
@@ -169,10 +169,10 @@ const RemainderForm = ({
                   placeholder="Max 30 chars"
                   type="text"
                   name="title"
-                  id="remainderTitle"
+                  id="reminderTitle"
                   size="huge"
                   onChange={(e) => handleValueChange("title", e.target.value)}
-                  value={remainderValues.title}
+                  value={reminderValues.title}
                 />
               </Form.Field>
               <Form.Field inline>
@@ -180,10 +180,10 @@ const RemainderForm = ({
                 <Input
                   type="time"
                   name="time"
-                  id="remainderTime"
+                  id="reminderTime"
                   size="big"
                   onChange={(e) => handleValueChange("time", e.target.value)}
-                  value={remainderValues.time}
+                  value={reminderValues.time}
                   error={true}
                 />
               </Form.Field>
@@ -195,7 +195,7 @@ const RemainderForm = ({
                   radio
                   name="color"
                   value="pink"
-                  checked={remainderValues.color === "pink"}
+                  checked={reminderValues.color === "pink"}
                   onChange={() => handleValueChange("color", "pink")}
                 />
                 <Label
@@ -209,7 +209,7 @@ const RemainderForm = ({
                   radio
                   name="color"
                   value="blue"
-                  checked={remainderValues.color === "blue"}
+                  checked={reminderValues.color === "blue"}
                   onChange={() => handleValueChange("color", "blue")}
                 />
                 <Label
@@ -223,7 +223,7 @@ const RemainderForm = ({
                   radio
                   name="color"
                   value="olive"
-                  checked={remainderValues.color === "olive"}
+                  checked={reminderValues.color === "olive"}
                   onChange={() => handleValueChange("color", "olive")}
                 />
                 <Label
@@ -237,7 +237,7 @@ const RemainderForm = ({
                   radio
                   name="color"
                   value="yellow"
-                  checked={remainderValues.color === "yellow"}
+                  checked={reminderValues.color === "yellow"}
                   onChange={() => handleValueChange("color", "yellow")}
                 />
                 <Label
@@ -251,7 +251,7 @@ const RemainderForm = ({
                   radio
                   name="color"
                   value="teal"
-                  checked={remainderValues.color === "teal"}
+                  checked={reminderValues.color === "teal"}
                   onChange={() => handleValueChange("color", "teal")}
                 />
                 <Label
@@ -270,7 +270,7 @@ const RemainderForm = ({
                   selection
                   size="huge"
                   options={countryOptions}
-                  value={remainderValues.country}
+                  value={reminderValues.country}
                   onChange={(e) =>
                     handleValueChange("country", e.target.textContent)
                   }
@@ -284,13 +284,13 @@ const RemainderForm = ({
                   selection
                   size="huge"
                   options={cityOptions}
-                  value={remainderValues.city}
+                  value={reminderValues.city}
                   onChange={(e) =>
                     handleValueChange("city", e.target.textContent)
                   }
                 />
               </Form.Field>
-              {remainderToEdit && (
+              {reminderToEdit && (
                 <>
                   <Form.Field inline>
                     <Label size="huge">Month</Label>
@@ -300,7 +300,7 @@ const RemainderForm = ({
                       selection
                       size="huge"
                       options={monthOptions}
-                      value={remainderValues.month}
+                      value={reminderValues.month}
                       onChange={(e) =>
                         handleValueChange(
                           "month",
@@ -317,7 +317,7 @@ const RemainderForm = ({
                       selection
                       size="huge"
                       options={daysOptions}
-                      value={remainderValues.day}
+                      value={reminderValues.day}
                       onChange={(e) =>
                         handleValueChange("day", Number(e.target.textContent))
                       }
@@ -347,16 +347,16 @@ const RemainderForm = ({
 
 const mapStateToProps = (state) => {
   return {
-    remainders: state.remainders.storedRemainders,
+    reminders: state.reminders.storedReminders,
     countries: state.countries.storedCountries,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addRemainder: (data) => dispatch(addRemainder(data)),
-    editRemainder: (data) => dispatch(editRemainder(data)),
+    addReminder: (data) => dispatch(addReminder(data)),
+    editReminder: (data) => dispatch(editReminder(data)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RemainderForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ReminderForm);

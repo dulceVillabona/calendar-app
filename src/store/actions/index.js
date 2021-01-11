@@ -1,17 +1,17 @@
 import TYPES from "./types";
 
-export const addRemainder = (data) => ({
-  type: TYPES.ADD_REMAINDER,
+export const addReminder = (data) => ({
+  type: TYPES.ADD_REMINDER,
   payload: data,
 });
 
-export const editRemainder = (data) => ({
-  type: TYPES.EDIT_REMAINDER,
+export const editReminder = (data) => ({
+  type: TYPES.EDIT_REMINDER,
   payload: data,
 });
 
-export const deleteRemainder = (data) => ({
-  type: TYPES.DELETE_REMAINDER,
+export const deleteReminder = (data) => ({
+  type: TYPES.DELETE_REMINDER,
   payload: data,
 });
 

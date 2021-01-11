@@ -1,6 +1,6 @@
 # Calendar app
 
-This is a basic calendar app that allows you to create, edit and delete remainders for every month of the current year
+This is a basic calendar app that allows you to create, edit and delete reminders for every month of the current year
 
 ## Installation
 

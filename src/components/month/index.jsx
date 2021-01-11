@@ -3,7 +3,7 @@ import React from "react";
 import Day from "../day";
 import { DAYS, FULL_DAYS, getDaysInMonth, getDayOfWeek } from "../../utils.js";
 
-const Month = ({ monthNumber, monthRemainders }) => {
+const Month = ({ monthNumber, monthReminders }) => {
  
 
   const currentDays = getDaysInMonth(monthNumber);
@@ -28,13 +28,13 @@ const Month = ({ monthNumber, monthRemainders }) => {
     }
 
     for (let i = 1; i <= currentDays; i++) {
-      const dayRemainders = monthRemainders.filter(
-        (remainder) => remainder.day === i
+      const dayReminders = monthReminders.filter(
+        (reminder) => reminder.day === i
       );
       days.push(
         <Day
           dayNumber={i}
-          remainders={dayRemainders}
+          reminders={dayReminders}
           monthNumber={monthNumber}
           isWeekEnd={getDayOfWeek(monthNumber, i) === "Sat" || getDayOfWeek(monthNumber, i) === "Sun"}
         />

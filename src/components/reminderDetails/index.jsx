@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 
 import { Button, Modal } from "semantic-ui-react";
-import RemainderForm from "../remainderForm";
+import ReminderForm from "../reminderForm";
 import DeleteForm from "../deleteForm";
 
-const RemainderDetails = ({ remainder, trigger }) => {
-  const { color, title, time, city, country } = remainder;
+const ReminderDetails = ({ reminder, trigger }) => {
+  const { color, title, time, city, country } = reminder;
   const [open, setOpen] = useState(false);
   const [currentWeather, setCurrentWeather] = useState();
 
@@ -19,7 +19,7 @@ const RemainderDetails = ({ remainder, trigger }) => {
 
   useEffect(() => {
     setOpen(false);
-  }, [remainder]);
+  }, [reminder]);
 
   return (
     <Modal
@@ -30,11 +30,11 @@ const RemainderDetails = ({ remainder, trigger }) => {
     >
       <Modal.Header className={color}>{title}</Modal.Header>
       <Modal.Content>
-        <Modal.Description className="remainderDetailsContainer">
-          <div className="remainderInfoDiv">
-            <p className="remainderInfo">{`Time: ${time}`}</p>
-            <p className="remainderInfo">{`Country: ${country}`}</p>
-            <p className="remainderInfo">{`City: ${city}`}</p>
+        <Modal.Description className="reminderDetailsContainer">
+          <div className="reminderInfoDiv">
+            <p className="reminderInfo">{`Time: ${time}`}</p>
+            <p className="reminderInfo">{`Country: ${country}`}</p>
+            <p className="reminderInfo">{`City: ${city}`}</p>
           </div>
           {currentWeather && (
             <div className="forecastDiv">
@@ -53,12 +53,12 @@ const RemainderDetails = ({ remainder, trigger }) => {
       <Modal.Actions>
         <DeleteForm
           trigger={<Button color="black">Delete</Button>}
-          remainderToDelete={remainder}
+          reminderToDelete={reminder}
         />
 
-        <RemainderForm
+        <ReminderForm
           type="edit"
-          remainderToEdit={remainder}
+          reminderToEdit={reminder}
           trigger={<Button color="blue">Edit</Button>}
         />
       </Modal.Actions>
@@ -66,4 +66,4 @@ const RemainderDetails = ({ remainder, trigger }) => {
   );
 };
 
-export default RemainderDetails;
+export default ReminderDetails;

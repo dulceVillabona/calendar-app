@@ -2,21 +2,21 @@ import React from "react";
 
 import { Button } from "semantic-ui-react";
 
-import RemainderForm from "../remainderForm";
+import ReminderForm from "../reminderForm";
 import DeleteForm from "../deleteForm";
-import Remainder from "../remainder";
+import Reminder from "../reminder";
 
-const Day = ({ dayNumber, monthNumber, remainders, isWeekEnd }) => {
-  remainders.sort((a, b) => a.time > b.time ? 1 : -1);
+const Day = ({ dayNumber, monthNumber, reminders, isWeekEnd }) => {
+  reminders.sort((a, b) => a.time > b.time ? 1 : -1);
 
   return (
     <div className={`dayDiv ${isWeekEnd ? 'weekEndDay' : ''}`}>
       <div className="dayHeader">{dayNumber}</div>
-      <div className="dayRemaindersDiv">
-        {remainders.length
-          ? remainders.map((remainder, index) => {
+      <div className="dayRemindersDiv">
+        {reminders.length
+          ? reminders.map((reminder, index) => {
               return (
-                <Remainder id={`${dayNumber}-${index}`} info={remainder} />
+                <Reminder id={`${dayNumber}-${index}`} info={reminder} />
               );
             })
           : null}
@@ -27,11 +27,11 @@ const Day = ({ dayNumber, monthNumber, remainders, isWeekEnd }) => {
           month={monthNumber}
           trigger={<Button circular icon="trash alternate" />}
         ></DeleteForm>
-        <RemainderForm
+        <ReminderForm
           day={dayNumber}
           month={monthNumber}
           trigger={<Button circular icon="add" />}
-        ></RemainderForm>
+        ></ReminderForm>
       </div>
     </div>
   );

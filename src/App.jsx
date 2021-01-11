@@ -7,7 +7,7 @@ import Month from "./components/month";
 import { setCountries } from "./store/actions";
 import { MONTHS } from "./utils";
 
-const App = ({ remainders, setCountries }) => {
+const App = ({ reminders, setCountries }) => {
   useEffect(() => {
     fetch("https://countriesnow.space/api/v0.1/countries")
       .then((res) => res.json())
@@ -17,8 +17,8 @@ const App = ({ remainders, setCountries }) => {
   const date = new Date();
   const [currentMonth, setCurrentMonth] = useState(date.getMonth());
 
-  const monthRemainders = remainders.filter(
-    (remainder) => remainder.month === currentMonth
+  const monthReminders = reminders.filter(
+    (reminder) => reminder.month === currentMonth
   );
 
   return (
@@ -40,14 +40,14 @@ const App = ({ remainders, setCountries }) => {
           icon="arrow right"
         />
       </div>
-      <Month monthNumber={currentMonth} monthRemainders={monthRemainders} />
+      <Month monthNumber={currentMonth} monthReminders={monthReminders} />
     </div>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-    remainders: state.remainders.storedRemainders,
+    reminders: state.reminders.storedReminders,
     countries: state.countries,
   };
 };

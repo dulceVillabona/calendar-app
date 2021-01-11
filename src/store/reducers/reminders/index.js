@@ -1,30 +1,30 @@
 import TYPES from "../../actions/types";
 
 const INITIAL_STATE = {
-  storedRemainders: [],
+  storedReminders: [],
 };
 
-const remaindersReducer = (
+const remindersReducer = (
   state = INITIAL_STATE,
   { payload = "", type }
 ) => {
   switch (type) {
-    case TYPES.ADD_REMAINDER: {
+    case TYPES.ADD_REMINDER: {
       return {
         ...state,
-        storedRemainders: [...state.storedRemainders, payload],
+        storedReminders: [...state.storedReminders, payload],
       };
     }
-    case TYPES.EDIT_REMAINDER: {
+    case TYPES.EDIT_REMINDER: {
       return {
         ...state,
-        storedRemainders: payload,
+        storedReminders: payload,
       };
     }
-    case TYPES.DELETE_REMAINDER: {
+    case TYPES.DELETE_REMINDER: {
       return {
         ...state,
-        storedRemainders: payload,
+        storedReminders: payload,
       };
     }
     default:
@@ -32,4 +32,4 @@ const remaindersReducer = (
   }
 };
 
-export default remaindersReducer;
+export default remindersReducer;

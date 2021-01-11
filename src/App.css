@@ -79,7 +79,7 @@ h1 {
   font-weight: bold;
 }
 
-.dayRemaindersDiv {
+.dayRemindersDiv {
   height: 65%;
   overflow: auto;
 }
@@ -91,22 +91,22 @@ h1 {
   justify-content: flex-end;
 }
 
-.addRemainderBtn {
+.addReminderBtn {
   border-radius: 50%;
   font-size: 15px;
   height: 90%;
   margin: 0px 2px;
 }
 
-/* REMAINDER */
+/* reminder */
 
-.remainderDiv {
+.reminderDiv {
   height: 34px;
   padding: 5px;
   font-size: 17px;
 }
 
-.remainderDiv p {
+.reminderDiv p {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -128,21 +128,21 @@ h1 {
   background-color: #00b5ad !important;
 }
 
-/* REMAINDER DETAILS */
+/* reminder DETAILS */
 
-.remainderDetailsContainer {
+.reminderDetailsContainer {
   display: flex !important;
 }
 
-.remainderDetailsContainer p {
+.reminderDetailsContainer p {
   font-size: 20px;
 }
 
-.remainderDetailsContainer div {
+.reminderDetailsContainer div {
   width: 50%;
 }
 
-/* REMAINDER FORM */
+/* reminder FORM */
 
 .checkboxesContainer {
   display: grid;

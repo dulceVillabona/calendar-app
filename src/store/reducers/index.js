@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 
-import remaindersReducer from './remainders';
+import remindersReducer from './reminders';
 import countriesReducer from './countries';
 
 const rootReducer = combineReducers({
-    remainders: remaindersReducer,
+    reminders: remindersReducer,
     countries: countriesReducer
 });
 
